@@ -2,6 +2,7 @@ package com.naiomi.paymentservice.initiation;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,6 +14,11 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         this.creditTransferRepository = creditTransferRepository;
     }
 
+
+    @Override
+    public List<CreditTransfer> getAllCreditTransfers() {
+        return creditTransferRepository.findAll();
+    }
 
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
         return creditTransferRepository.save(creditTransfer);

@@ -28,10 +28,10 @@ public class CreditTransferServiceImpl implements CreditTransferService {
 
     @Override
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
-        isAccountValid(creditTransfer);
+        IsPaymentAccountsValid(creditTransfer);
         return creditTransferRepository.save(creditTransfer);
     }
-    private void isAccountValid(CreditTransfer creditTransfer) {
+    private void IsPaymentAccountsValid(CreditTransfer creditTransfer) {
         Account debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
         if (debtorAccount == null) {
             throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");

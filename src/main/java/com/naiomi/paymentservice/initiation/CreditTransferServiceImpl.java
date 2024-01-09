@@ -34,11 +34,11 @@ public class CreditTransferServiceImpl implements CreditTransferService {
     private void isAccountValid(CreditTransfer creditTransfer) {
         Account debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
         if (debtorAccount == null) {
-            throw new AccountNotFoundException("Account id " + debtorAccount + "not found");
+            throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
         }
         Account creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
         if (creditorAccount == null) {
-            throw new AccountNotFoundException("Account id " + creditorAccount + "not found");
+            throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
         }
     }
 
@@ -48,10 +48,6 @@ public class CreditTransferServiceImpl implements CreditTransferService {
 
     public Optional<CreditTransfer> getCreditTransferById(String paymentId) {
         return creditTransferRepository.findById(paymentId);
-    }
-
-    public CreditTransfer updateCreditTransfer(CreditTransfer creditTransfer) {
-        return creditTransferRepository.save(creditTransfer);
     }
 
     public void reverseCreditTransfer(String paymentId) {

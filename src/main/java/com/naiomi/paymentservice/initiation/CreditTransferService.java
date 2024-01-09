@@ -14,7 +14,5 @@ public interface CreditTransferService {
 
     Optional<CreditTransfer> getCreditTransferById(String paymentId);
 
-    CreditTransfer updateCreditTransfer(CreditTransfer creditTransfer);
-
     void reverseCreditTransfer(String paymentId);
 }

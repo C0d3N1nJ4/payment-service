@@ -28,5 +28,12 @@ group Payment Service
             paymentService -> transactionDb: saveTransaction()
             api <-[#green]- paymentService: 201 Created
     end
+    group PUT /payments/credit-transfer/{id}
+        api -> paymentService: PUT /payments/credit-transfer/{id}
+        paymentService -> paymentDb: findTransactionById()
+        paymentService -> transactionDb: saveTransaction()
+        api <-[#green]- paymentService: 200 OK
+        api <-[#red]- paymentService: 404 Not Found
+    end
 end
 @enduml

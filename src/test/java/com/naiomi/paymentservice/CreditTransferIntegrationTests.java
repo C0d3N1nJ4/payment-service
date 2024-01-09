@@ -87,4 +87,11 @@ public class CreditTransferIntegrationTests {
                                 """))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void getPaymentById_StatusOk() throws Exception {
+        mockMvc.perform(get("/payments/credit-transfer/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }

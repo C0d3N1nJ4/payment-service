@@ -28,15 +28,18 @@ public class CreditTransferServiceImpl implements CreditTransferService {
 
     @Override
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
+        isAccountValid(creditTransfer);
+        return creditTransferRepository.save(creditTransfer);
+    }
+    private void isAccountValid(CreditTransfer creditTransfer) {
         Account debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
-        Account creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
         if (debtorAccount == null) {
             throw new AccountNotFoundException("Account id " + debtorAccount + "not found");
         }
+        Account creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
         if (creditorAccount == null) {
             throw new AccountNotFoundException("Account id " + creditorAccount + "not found");
         }
-        return creditTransferRepository.save(creditTransfer);
     }
 
     public Account getAccount(String id) {

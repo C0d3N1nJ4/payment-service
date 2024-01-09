@@ -14,4 +14,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle("Account not found");
         return problemDetail;
     }
+
+    @ExceptionHandler(PaymentNotFoundException.class)
+    ProblemDetail handlePaymentNotFoundException(PaymentNotFoundException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+        problemDetail.setTitle("Payment not found");
+        return problemDetail;
+    }
 }

@@ -2,6 +2,7 @@ package com.naiomi.paymentservice.initiation;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,10 +16,13 @@ public class CreditTransfer {
     private LocalDateTime paymentDateTime;
     private double amount;
     private String currency;
-    private String debtorId;
-    private String debtorAccount;
-    private String creditorId;
-    private String creditorAccount;
+    private String debtorAccountId;
+    private String creditorAccountId;
+    private String reference;
     private String status;
 
+    @PrePersist
+    protected void onCreate() {
+        paymentDateTime = LocalDateTime.now();
+    }
 }

@@ -1,5 +1,8 @@
 package com.naiomi.paymentservice.initiation;
 
+import com.naiomi.paymentservice.account.Account;
+import com.naiomi.paymentservice.account.AccountServiceClient;
+import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +13,11 @@ public class CreditTransferServiceImpl implements CreditTransferService {
 
     private final CreditTransferRepository creditTransferRepository;
 
-    public CreditTransferServiceImpl(CreditTransferRepository creditTransferRepository) {
+    private final AccountServiceClient accountServiceClient;
+
+    public CreditTransferServiceImpl(CreditTransferRepository creditTransferRepository, AccountServiceClient accountServiceClient) {
         this.creditTransferRepository = creditTransferRepository;
+        this.accountServiceClient = accountServiceClient;
     }
 
 
@@ -20,8 +26,21 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         return creditTransferRepository.findAll();
     }
 
+    @Override
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
+        Account debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
+        Account creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
+        if (debtorAccount == null) {
+            throw new AccountNotFoundException("Account id " + debtorAccount + "not found");
+        }
+        if (creditorAccount == null) {
+            throw new AccountNotFoundException("Account id " + creditorAccount + "not found");
+        }
         return creditTransferRepository.save(creditTransfer);
+    }
+
+    public Account getAccount(String id) {
+        return accountServiceClient.getAccount(id);
     }
 
     public Optional<CreditTransfer> getCreditTransferById(String paymentId) {

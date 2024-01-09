@@ -1,9 +1,7 @@
 package com.naiomi.paymentservice.initiation;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,12 @@ public class CreditTransferController {
     @ResponseBody
     public List<CreditTransfer> getAllCreditTransfers() {
         return creditTransferService.getAllCreditTransfers();
+    }
+
+    @PostMapping("/credit-transfer")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreditTransfer createCreditTransfer(@RequestBody CreditTransfer creditTransfer) {
+        return creditTransferService.createCreditTransfer(creditTransfer);
     }
 }

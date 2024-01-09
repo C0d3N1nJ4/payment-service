@@ -9,30 +9,30 @@ LifeLineBackgroundColor #A9DCDF}
 autonumber 1 1 "<b>[00]"
 group Payment Service
     group GET /payments/credit-transfers
-        api -> paymentService: GET /customerCreditTransfers
+        api -> paymentService: GET /payments/credit-transfers
         database    paymentDb    as paymentDb
         paymentService -> paymentDbDb: findAllCreditTransfers()
         api <-[#green]- paymentService: 200 OK
     end
     group GET /transactions/{id}
-        api -> transactionService: GET /transactions/{id}
-        transactionService -> transactionDb: findTransactionById()
-        api <-[#green]- transactionService: 200 OK
-        api <-[#red]- transactionService: 404 Not Found
+        api -> paymentService: GET /transactions/{id}
+        paymentService -> transactionDb: findTransactionById()
+        api <-[#green]- paymentService: 200 OK
+        api <-[#red]- paymentService: 404 Not Found
     end
-    group POST /transaction
-           api -> transactionService: POST /transaction
-            transactionService -> accountService: getAccountById()
+    group POST /payments/credit-transfer
+           api -> paymentService: POST /payments/credit-transfer
+            paymentService -> accountService: getAccountById()
             accountService -> accountDb: findAccountById()
-            accountService --> transactionService: Account
-            transactionService -> transactionDb: saveTransaction()
-            api <-[#green]- transactionService: 201 Created
+            accountService --> paymentService: Account
+            paymentService -> transactionDb: saveTransaction()
+            api <-[#green]- paymentService: 201 Created
     end
     group PUT /transactions/{id}
-        api -> transactionService: PUT /transactions/{id}
-        transactionService -> transactionDb: updateTransaction()
-        api <-[#green]- transactionService: 200 OK
-        api <-[#red]- transactionService: 404 Not Found
+        api -> paymentService: PUT /transactions/{id}
+        paymentService -> transactionDb: updateTransaction()
+        api <-[#green]- paymentService: 200 OK
+        api <-[#red]- paymentService: 404 Not Found
     end
 end
 @enduml

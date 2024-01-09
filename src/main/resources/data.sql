@@ -1,0 +1,4 @@
+INSERT INTO Credit_Transfer (PAYMENT_ID, PAYMENT_DATE_TIME, AMOUNT, CURRENCY, DEBTOR_ACCOUNT_ID, CREDITOR_ACCOUNT_ID, REFERENCE, STATUS) VALUES
+                                                                                                                                     ('123456789', '2024-01-09 07:38:24', 1000.00, 'USD', 'DEBT12345', 'CRED67890', 'Payment for services', 'Completed'),
+                                                                                                                                     ('987654321', '2024-01-10 08:40:30', 1500.50, 'EUR', 'DEBT54321', 'CRED09876', 'Payment for goods', 'Pending'),
+                                                                                                                                     ('567890123', '2024-01-11 09:45:35', 750.25, 'GBP', 'DEBT67890', 'CRED12345', 'Refund', 'Completed');

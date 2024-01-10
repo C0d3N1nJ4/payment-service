@@ -25,13 +25,13 @@ group Payment Service
             paymentService -> accountService: getAccountById()
             accountService -> accountDb: findAccountById()
             accountService --> paymentService: Account
-            paymentService -> transactionDb: saveTransaction()
+            paymentService -> paymentDb: saveTransaction()
             api <-[#green]- paymentService: 201 Created
     end
-    group PUT /payments/credit-transfer/{id}
+    group PUT /payments/credit-transfer/reverse/{id}
         api -> paymentService: PUT /payments/credit-transfer/{id}
         paymentService -> paymentDb: findTransactionById()
-        paymentService -> transactionDb: saveTransaction()
+        paymentService -> paymentDb: saveTransaction()
         api <-[#green]- paymentService: 200 OK
         api <-[#red]- paymentService: 404 Not Found
     end

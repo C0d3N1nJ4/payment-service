@@ -2,6 +2,7 @@ package com.naiomi.paymentservice.initiation;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ public class CreditTransfer {
 
     @Id
     private String paymentId;
+    private PaymentType paymentType;
     private LocalDateTime paymentDateTime;
     private double amount;
     private String currency;

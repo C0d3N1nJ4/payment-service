@@ -1,8 +1,9 @@
 package com.naiomi.paymentservice.initiation;
 
-import com.naiomi.paymentservice.account.Account;
+import com.naiomi.paymentservice.account.AccountDto;
 import com.naiomi.paymentservice.account.AccountServiceClient;
 import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
+import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,17 +33,17 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         return creditTransferRepository.save(creditTransfer);
     }
     private void IsPaymentAccountsValid(CreditTransfer creditTransfer) {
-        Account debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
+        AccountDto debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
         if (debtorAccount == null) {
             throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
         }
-        Account creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
+        AccountDto creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
         if (creditorAccount == null) {
             throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
         }
     }
 
-    public Account getAccount(String id) {
+    public AccountDto getAccount(String id) {
         return accountServiceClient.getAccount(id);
     }
 
@@ -50,12 +51,23 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         return creditTransferRepository.findById(paymentId);
     }
 
-    public void reverseCreditTransfer(String paymentId) {
-        Optional<CreditTransfer> creditTransfer = creditTransferRepository.findById(paymentId);
-        if (creditTransfer.isPresent()) {
-            CreditTransfer reversal = creditTransfer.get();
-            reversal.setStatus("REVERSED");
+    @Override
+    public CreditTransfer reverseCreditTransfer(String paymentId) {
+        Optional<CreditTransfer> payment = creditTransferRepository.findById(paymentId);
+        CreditTransfer reversal = new CreditTransfer();
+        if (payment.isPresent()) {
+            reversal.setPaymentId(payment.get().getPaymentId() + "R");
+            reversal.setPaymentType(PaymentType.CREDIT_TRANSFER_REVERSAL);
+            reversal.setCreditorAccountId(payment.get().getDebtorAccountId());
+            reversal.setDebtorAccountId(payment.get().getCreditorAccountId());
+            reversal.setAmount(payment.get().getAmount());
+            reversal.setCurrency(payment.get().getCurrency());
+            reversal.setReference(payment.get().getReference());
+            reversal.setStatus("Reversal");
             creditTransferRepository.save(reversal);
+            return reversal;
+        } else {
+            throw new PaymentNotFoundException(paymentId);
         }
     }
 }

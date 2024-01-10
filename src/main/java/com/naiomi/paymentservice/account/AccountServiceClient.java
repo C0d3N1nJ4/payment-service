@@ -1,6 +1,5 @@
 package com.naiomi.paymentservice.account;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -20,9 +19,9 @@ public class AccountServiceClient {
         this.restTemplate = restTemplate;
     }
 
-    public Account getAccount(String id) {
+    public AccountDto getAccount(String id) {
         try {
-            return restTemplate.getForObject(apiURL + "/" + id, Account.class);
+            return restTemplate.getForObject(apiURL + "/" + id, AccountDto.class);
         } catch (RestClientException e) {
             throw new AccountNotFoundException("Account with ID " + id + " not found.");
         }

@@ -34,4 +34,12 @@ public class CreditTransferController {
     public CreditTransfer getCreditTransferById(@PathVariable String paymentId) {
         return creditTransferService.getCreditTransferById(paymentId).orElseThrow(() -> new PaymentNotFoundException(paymentId));
     }
+
+    @PutMapping("/credit-transfer/reverse/{paymentId}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public CreditTransfer reverseCreditTransfer(@PathVariable String paymentId) {
+        return creditTransferService.reverseCreditTransfer(paymentId);
+    }
+
 }

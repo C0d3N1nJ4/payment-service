@@ -118,7 +118,7 @@ public class CreditTransferIntegrationTests {
                                      "status": "Pending"
                                 }
                                 """))
-                .andExpect(status().isFailedDependency());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

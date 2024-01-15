@@ -34,6 +34,8 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         IsPaymentAccountsValid(creditTransfer);
         boolean balanceIsValid = doesAccountHaveEnoughFunds(creditTransfer.getDebtorAccountId(), creditTransfer.getAmount());
         if (!balanceIsValid) {
+            creditTransfer.setStatus("Insufficient funds");
+            creditTransferRepository.save(creditTransfer);
             throw new InsufficientFundsException("Insufficient funds to complete payment");
         }
         return creditTransferRepository.save(creditTransfer);

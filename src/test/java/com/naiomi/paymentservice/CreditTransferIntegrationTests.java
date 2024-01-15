@@ -9,8 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,8 +45,8 @@ public class CreditTransferIntegrationTests {
                                      "amount": 100.00,
                                      "currency" : "EUR",
                                      "debtorAccountId": "1",
-                                     "creditorAccountId": "2", 
-                                     "reference": "Payment for goods",    
+                                     "creditorAccountId": "2",
+                                     "reference": "Payment for goods",
                                      "status": "Pending"
                                 }
                                 """))
@@ -56,7 +55,7 @@ public class CreditTransferIntegrationTests {
                                 {
                                      "paymentId": "1",
                                      "amount": 100.00,
-                                     "paymentType": 0,
+                                     "paymentType": "CREDIT_TRANSFER",
                                      "currency" : "EUR",
                                      "debtorAccountId": "1",
                                      "creditorAccountId": "2",
@@ -107,7 +106,7 @@ public class CreditTransferIntegrationTests {
     public void getPaymentById_StatusOk() throws Exception {
         mockMvc.perform(get("/payments/credit-transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -119,19 +118,19 @@ public class CreditTransferIntegrationTests {
 
     @Test
     public void reversePayment_StatusOk() throws Exception {
-        mockMvc.perform(get("/payments/credit-transfer/reverse/1")
+        mockMvc.perform(put("/payments/credit-transfer/reverse/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                                 {
                                      "paymentId": "1R",
-                                     "paymentType": 3,
+                                     "paymentType": "CREDIT_TRANSFER_REVERSAL",
                                      "amount": 1500.50,
                                      "currency" : "EUR",
                                      "debtorAccountId": "2",
                                      "creditorAccountId": "1",
                                      "reference": "Payment for goods",
-                                     "status": "REVERSAL"
+                                     "status": "Reversal"
                                 }
                                 """));
     }

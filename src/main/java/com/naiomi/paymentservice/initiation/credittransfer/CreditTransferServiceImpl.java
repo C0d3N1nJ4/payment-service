@@ -1,9 +1,10 @@
-package com.naiomi.paymentservice.initiation;
+package com.naiomi.paymentservice.initiation.credittransfer;
 
 import com.naiomi.paymentservice.account.AccountDto;
 import com.naiomi.paymentservice.account.AccountServiceClient;
 import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
 import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
+import com.naiomi.paymentservice.initiation.PaymentType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,10 @@ public class CreditTransferServiceImpl implements CreditTransferService {
     @Override
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
         IsPaymentAccountsValid(creditTransfer);
+        boolean balanceIsValid = doesAccountHaveEnoughFunds(creditTransfer.getDebtorAccountId(), creditTransfer.getAmount());
+        if (!balanceIsValid) {
+            throw new RuntimeException("Insufficient funds");
+        }
         return creditTransferRepository.save(creditTransfer);
     }
     private void IsPaymentAccountsValid(CreditTransfer creditTransfer) {
@@ -69,5 +74,10 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         } else {
             throw new PaymentNotFoundException(paymentId);
         }
+    }
+
+    public boolean doesAccountHaveEnoughFunds(String accountId, double amount) {
+        AccountDto account = getAccount(accountId);
+        return account.getBalance() >= amount;
     }
 }

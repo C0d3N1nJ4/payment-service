@@ -1,8 +1,8 @@
-package com.naiomi.paymentservice.initiation;
+package com.naiomi.paymentservice.initiation.credittransfer;
 
+import com.naiomi.paymentservice.initiation.PaymentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.PostPersist;
 import jakarta.persistence.PrePersist;
 import lombok.Data;
 

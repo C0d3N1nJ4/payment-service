@@ -26,6 +26,4 @@ public class AccountServiceClient {
             throw new AccountNotFoundException("Account with ID " + id + " not found.");
         }
     }
-
-
 }

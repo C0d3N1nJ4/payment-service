@@ -1,4 +1,4 @@
-package com.naiomi.paymentservice.initiation;
+package com.naiomi.paymentservice.initiation.credittransfer;
 
 import org.springframework.stereotype.Service;
 

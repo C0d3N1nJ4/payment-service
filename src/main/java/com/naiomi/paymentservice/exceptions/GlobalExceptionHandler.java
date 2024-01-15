@@ -21,4 +21,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle("Payment not found");
         return problemDetail;
     }
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    ProblemDetail handleInsufficientFundsException(InsufficientFundsException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FAILED_DEPENDENCY, e.getMessage());
+        problemDetail.setTitle("Insufficient funds");
+        return problemDetail;
+    }
 }

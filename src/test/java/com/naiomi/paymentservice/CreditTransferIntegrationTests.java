@@ -103,6 +103,25 @@ public class CreditTransferIntegrationTests {
     }
 
     @Test
+    public void createCreditTransferWithInsufficientFunds_StatusInsufficientFunds() throws Exception {
+        mockMvc.perform(post("/payments/credit-transfer")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                     "paymentId": "1",
+                                     "paymentType": 0,
+                                     "amount": 100000.00,
+                                     "currency" : "EUR",
+                                     "debtorAccountId": "1",
+                                     "creditorAccountId": "2",
+                                     "reference": "Payment for goods",
+                                     "status": "Pending"
+                                }
+                                """))
+                .andExpect(status().isFailedDependency());
+    }
+
+    @Test
     public void getPaymentById_StatusOk() throws Exception {
         mockMvc.perform(get("/payments/credit-transfer/1")
                         .contentType(MediaType.APPLICATION_JSON))

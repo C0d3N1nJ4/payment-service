@@ -3,6 +3,7 @@ package com.naiomi.paymentservice.initiation.credittransfer;
 import com.naiomi.paymentservice.account.AccountDto;
 import com.naiomi.paymentservice.account.AccountServiceClient;
 import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
+import com.naiomi.paymentservice.exceptions.InsufficientFundsException;
 import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
 import com.naiomi.paymentservice.initiation.PaymentType;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         IsPaymentAccountsValid(creditTransfer);
         boolean balanceIsValid = doesAccountHaveEnoughFunds(creditTransfer.getDebtorAccountId(), creditTransfer.getAmount());
         if (!balanceIsValid) {
-            throw new RuntimeException("Insufficient funds");
+            throw new InsufficientFundsException("Insufficient funds to complete payment");
         }
         return creditTransferRepository.save(creditTransfer);
     }

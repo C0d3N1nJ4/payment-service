@@ -30,7 +30,7 @@ group Payment Service
             api <-[#green]- paymentService: 201 Created
             api <-[#red]- paymentService: 400 Bad Request
             api <-[#red]- paymentService: 404 Account Not Found
-            api <-[#red]- paymentService: 500 Insufficient Funds
+            api <-[#red]- paymentService: 422 Insufficient Funds
     end
     group PUT /payments/credit-transfer/reverse/{id}
         api -> paymentService: PUT /payments/credit-transfer/{id}

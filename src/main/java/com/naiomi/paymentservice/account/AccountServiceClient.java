@@ -29,7 +29,7 @@ public class AccountServiceClient {
 
     public AccountDto updateAccount(String id, AccountDto accountDto) {
         try {
-            return restTemplate.postForObject(apiURL + "/" + id, accountDto, AccountDto.class);
+            return restTemplate.postForObject(apiURL + "/balance/" + id, accountDto, AccountDto.class);
         } catch (RestClientException e) {
             throw new AccountNotFoundException("Account with ID " + id + " not found.");
         }

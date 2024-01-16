@@ -26,4 +26,12 @@ public class AccountServiceClient {
             throw new AccountNotFoundException("Account with ID " + id + " not found.");
         }
     }
+
+    public AccountDto updateAccount(String id, AccountDto accountDto) {
+        try {
+            return restTemplate.postForObject(apiURL + "/" + id, accountDto, AccountDto.class);
+        } catch (RestClientException e) {
+            throw new AccountNotFoundException("Account with ID " + id + " not found.");
+        }
+    }
 }

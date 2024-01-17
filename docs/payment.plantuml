@@ -22,15 +22,24 @@ group Payment Service
     end
     group POST /payments/credit-transfer
            api -> paymentService: POST /payments/credit-transfer
-            paymentService -> accountService: getAccountById()
-            accountService -> accountDb: findAccountById()
-            accountService --> paymentService: Account
-            paymentService -> paymentService: checkBalance()
+           group Validation
+               paymentService -> paymentService: validateRequest()
+               api <-[#red]- paymentService: 400 Bad Request
+           end
+           paymentService -> accountService: getAccountById()
+           accountService -> accountDb: findAccountById()
+           accountService --> paymentService: Account
+           api <-[#red]- paymentService: 404 Account Not Found
+            group Balance Check
+                    paymentService -> paymentService: checkAccountBalance()
+                    api <-[#red]- paymentService: 422 Insufficient Funds
+            end
             paymentService -> paymentDb: saveTransaction()
-            api <-[#green]- paymentService: 201 Created
-            api <-[#red]- paymentService: 400 Bad Request
-            api <-[#red]- paymentService: 404 Account Not Found
-            api <-[#red]- paymentService: 422 Insufficient Funds
+            paymentService -> accountService: updateAccountBalance()
+            accountService -> accountDb: updateAccountBalance()
+            accountService -[#green]-> paymentService: Confirmation of balance update
+            paymentService -> paymentDb: updateTransactionStatus()
+            api <-[#green]- paymentService: 201 Created (AccountStatus = COMPLETE)
     end
     group PUT /payments/credit-transfer/reverse/{id}
         api -> paymentService: PUT /payments/credit-transfer/{id}

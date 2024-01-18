@@ -1,6 +1,7 @@
 package com.naiomi.paymentservice.initiation.credittransfer;
 
-import com.naiomi.paymentservice.initiation.PaymentType;
+import com.naiomi.paymentservice.initiation.data.PaymentStatus;
+import com.naiomi.paymentservice.initiation.data.PaymentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
@@ -21,7 +22,7 @@ public class CreditTransfer {
     private String debtorAccountId;
     private String creditorAccountId;
     private String reference;
-    private String status;
+    private PaymentStatus status;
 
     @PrePersist
     protected void onCreate() {

@@ -3,10 +3,10 @@ package com.naiomi.paymentservice.initiation.credittransfer;
 import com.naiomi.paymentservice.account.AccountDto;
 import com.naiomi.paymentservice.account.AccountServiceClient;
 import com.naiomi.paymentservice.account.BalanceDto;
-import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
 import com.naiomi.paymentservice.exceptions.InsufficientFundsException;
 import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
-import com.naiomi.paymentservice.initiation.PaymentType;
+import com.naiomi.paymentservice.initiation.data.PaymentStatus;
+import com.naiomi.paymentservice.initiation.data.PaymentType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         AccountDto creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
         boolean balanceIsValid = doesAccountHaveEnoughFunds(debtorAccount, creditTransfer.getAmount());
         if (!balanceIsValid) {
-            creditTransfer.setStatus("Insufficient funds");
+            creditTransfer.setStatus(PaymentStatus.INSUFFICIENT_FUNDS);
             creditTransferRepository.save(creditTransfer);
             throw new InsufficientFundsException("Insufficient funds to complete payment");
         }
@@ -81,7 +81,7 @@ public class CreditTransferServiceImpl implements CreditTransferService {
             reversal.setAmount(payment.get().getAmount());
             reversal.setCurrency(payment.get().getCurrency());
             reversal.setReference(payment.get().getReference());
-            reversal.setStatus("Reversal");
+            reversal.setStatus(PaymentStatus.REVERSED);
             creditTransferRepository.save(reversal);
             return reversal;
         } else {

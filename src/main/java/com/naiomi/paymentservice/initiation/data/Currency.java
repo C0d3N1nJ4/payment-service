@@ -1,4 +1,4 @@
-package com.naiomi.paymentservice.initiation;
+package com.naiomi.paymentservice.initiation.data;
 
 public enum Currency {
 

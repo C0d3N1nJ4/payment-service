@@ -47,7 +47,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "1",
                                      "creditorAccountId": "2",
                                      "reference": "Payment for goods",
-                                     "status": "Pending"
+                                     "status": 0
                                 }
                                 """))
                 .andExpect(status().isCreated())
@@ -60,7 +60,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "1",
                                      "creditorAccountId": "2",
                                      "reference": "Payment for goods",
-                                     "status": "Pending"
+                                     "status": "PENDING"
                                 }
                                 """));
     }
@@ -78,7 +78,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "0",
                                      "creditorAccountId": "2",
                                      "reference": "Payment for goods",
-                                     "status": "Pending"
+                                     "status": 0
                                 }
                                 """))
                 .andExpect(status().isNotFound());
@@ -96,7 +96,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "1",
                                      "creditorAccountId": "0",
                                      "reference": "Payment for goods",
-                                     "status": "Pending"
+                                     "status": 0
                                 }
                                 """))
                 .andExpect(status().isNotFound());
@@ -115,7 +115,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "1",
                                      "creditorAccountId": "2",
                                      "reference": "Payment for goods",
-                                     "status": "Pending"
+                                     "status": 0
                                 }
                                 """))
                 .andExpect(status().isUnprocessableEntity());
@@ -149,7 +149,7 @@ public class CreditTransferIntegrationTests {
                                      "debtorAccountId": "2",
                                      "creditorAccountId": "1",
                                      "reference": "Payment for goods",
-                                     "status": "Reversal"
+                                     "status": "REVERSED"
                                 }
                                 """));
     }

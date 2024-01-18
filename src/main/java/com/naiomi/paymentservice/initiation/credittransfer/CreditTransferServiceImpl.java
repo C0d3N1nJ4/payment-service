@@ -2,6 +2,7 @@ package com.naiomi.paymentservice.initiation.credittransfer;
 
 import com.naiomi.paymentservice.account.AccountDto;
 import com.naiomi.paymentservice.account.AccountServiceClient;
+import com.naiomi.paymentservice.account.BalanceDto;
 import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
 import com.naiomi.paymentservice.exceptions.InsufficientFundsException;
 import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
@@ -31,28 +32,37 @@ public class CreditTransferServiceImpl implements CreditTransferService {
 
     @Override
     public CreditTransfer createCreditTransfer(CreditTransfer creditTransfer) {
-        IsPaymentAccountsValid(creditTransfer);
-        boolean balanceIsValid = doesAccountHaveEnoughFunds(creditTransfer.getDebtorAccountId(), creditTransfer.getAmount());
+        AccountDto debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
+        AccountDto creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
+        boolean balanceIsValid = doesAccountHaveEnoughFunds(debtorAccount, creditTransfer.getAmount());
         if (!balanceIsValid) {
             creditTransfer.setStatus("Insufficient funds");
             creditTransferRepository.save(creditTransfer);
             throw new InsufficientFundsException("Insufficient funds to complete payment");
         }
+        calculateBalance(debtorAccount, creditorAccount, creditTransfer.getAmount());
         return creditTransferRepository.save(creditTransfer);
     }
-    private void IsPaymentAccountsValid(CreditTransfer creditTransfer) {
-        AccountDto debtorAccount = getAccount(creditTransfer.getDebtorAccountId());
-        if (debtorAccount == null) {
-            throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
-        }
-        AccountDto creditorAccount = getAccount(creditTransfer.getCreditorAccountId());
-        if (creditorAccount == null) {
-            throw new AccountNotFoundException("Account id " + creditTransfer.getDebtorAccountId() + "not found");
-        }
-    }
+//    private void IsPaymentAccountValid(String account) {
+//        AccountDto accounttoValidate = getAccount(account.getId());
+//        if (accounttoValidate == null) {
+//            throw new AccountNotFoundException("Account id " + accounttoValidate + "not found");
+//        }
+//    }
 
     public AccountDto getAccount(String id) {
         return accountServiceClient.getAccount(id);
+    }
+
+    public void calculateBalance(AccountDto debtorAccount, AccountDto creditorAccount, double amount) {
+        BalanceDto debtorBalance = new BalanceDto(debtorAccount.getBalance() - amount);
+        updateAccountBalance(debtorAccount.getId(), debtorBalance);
+        BalanceDto creditorBalance = new BalanceDto(creditorAccount.getBalance() + amount);
+        updateAccountBalance(creditorAccount.getId(), creditorBalance);
+    }
+
+    public AccountDto updateAccountBalance(String id, BalanceDto balance) {
+        return accountServiceClient.updateAccountBalance(id, balance);
     }
 
     public Optional<CreditTransfer> getCreditTransferById(String paymentId) {
@@ -79,8 +89,7 @@ public class CreditTransferServiceImpl implements CreditTransferService {
         }
     }
 
-    public boolean doesAccountHaveEnoughFunds(String accountId, double amount) {
-        AccountDto account = getAccount(accountId);
+    public boolean doesAccountHaveEnoughFunds(AccountDto account, double amount) {
         return account.getBalance() >= amount;
     }
 }

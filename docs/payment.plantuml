@@ -35,9 +35,11 @@ group Payment Service
                     api <-[#red]- paymentService: 422 Insufficient Funds
             end
             paymentService -> paymentDb: saveTransaction()
-            paymentService -> accountService: updateAccountBalance()
-            accountService -> accountDb: updateAccountBalance()
-            accountService -[#green]-> paymentService: Confirmation of balance update
+            group Update Balance
+                paymentService -> accountService: updateAccountBalance()
+                accountService -> accountDb: updateAccountBalance()
+                accountService -[#green]-> paymentService: Confirmation of balance update
+            end
             paymentService -> paymentDb: updateTransactionStatus()
             api <-[#green]- paymentService: 201 Created (AccountStatus = COMPLETE)
     end

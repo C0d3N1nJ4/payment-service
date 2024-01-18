@@ -10,8 +10,11 @@ import com.naiomi.paymentservice.exceptions.AccountNotFoundException;
 @Service
 public class AccountServiceClient {
 
-    @Value("http://localhost:9090/account")
+    @Value("${account.service.url}")
     private String apiURL;
+
+    @Value("${account.service.balance.url}")
+    private String apiURLBalance;
 
     private final RestTemplate restTemplate;
 
@@ -27,11 +30,11 @@ public class AccountServiceClient {
         }
     }
 
-    public AccountDto updateAccount(String id, AccountDto accountDto) {
+    public AccountDto updateAccountBalance(String id, BalanceDto balance) {
         try {
-            return restTemplate.postForObject(apiURL + "/balance/" + id, accountDto, AccountDto.class);
+            return restTemplate.postForObject(apiURLBalance + "/"+ id, balance, AccountDto.class);
         } catch (RestClientException e) {
-            throw new AccountNotFoundException("Account with ID " + id + " not found.");
+            throw new AccountNotFoundException(id);
         }
     }
 }

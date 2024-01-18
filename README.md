@@ -25,4 +25,4 @@ The payment service depends on the following projects :
 
 ## Sequence diagram
 
-![payment.png](docs/payment.png)
+![payment.png](docs/creditTransferPaymentProcess.png)

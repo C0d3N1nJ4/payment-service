@@ -8,9 +8,6 @@ public record AccountDto(String accountId, double balance) {
         return balance;
     }
 
-    public void setBalance(double v) {
-    }
-
     public String getId() {
         return accountId;
     }

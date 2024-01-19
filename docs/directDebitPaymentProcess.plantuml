@@ -1,0 +1,18 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF}
+
+autonumber 1 1 "<b>[00]"
+group Payment Service
+    group POST /payments/direct-debits/mandates
+        api -> paymentService: POST /payments/direct-debits/mandates
+        database    paymentDb    as paymentDb
+        paymentService -> paymentDb: saveMandate()
+        api <-[#green]- paymentService: 200 OK
+    end
+
+@enduml

@@ -8,28 +8,34 @@ import java.util.Optional;
 @Service
 public class DirectDebitServiceImpl implements DirectDebitService{
 
+    private final DirectDebitRepository directDebitRepository;
+
+    public DirectDebitServiceImpl(DirectDebitRepository directDebitRepository) {
+        this.directDebitRepository = directDebitRepository;
+    }
+
     @Override
     public List<DirectDebit> findAll() {
-        return null;
+        return directDebitRepository.findAll();
     }
 
     @Override
     public Optional<DirectDebit> findById(String id) {
-        return Optional.empty();
+        return directDebitRepository.findById(id);
     }
 
     @Override
     public DirectDebit createDirectDebit(DirectDebit directDebit) {
-        return null;
+        return directDebitRepository.save(directDebit);
     }
 
     @Override
     public DirectDebit update(String id, DirectDebit directDebit) {
-        return null;
+        return directDebitRepository.save(directDebit);
     }
 
     @Override
     public void delete(String id) {
-
+        directDebitRepository.deleteById(id);
     }
 }

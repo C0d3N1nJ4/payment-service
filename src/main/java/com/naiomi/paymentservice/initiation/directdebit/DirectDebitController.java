@@ -1,5 +1,6 @@
 package com.naiomi.paymentservice.initiation.directdebit;
 
+import com.naiomi.paymentservice.exceptions.PaymentNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class DirectDebitController {
     @GetMapping("/{id}")
     @ResponseBody
     public DirectDebit findById(@PathVariable String id) {
-        return directDebitService.findById(id).orElseThrow(() -> new RuntimeException("Direct debit not found"));
+        return directDebitService.findById(id).orElseThrow(() -> new PaymentNotFoundException(id));
     }
 
     @PostMapping()

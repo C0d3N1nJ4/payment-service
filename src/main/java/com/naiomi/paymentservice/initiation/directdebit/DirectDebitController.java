@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/direct-debits")
+@RequestMapping("/payments")
 public class DirectDebitController {
 
     private final DirectDebitServiceImpl directDebitService;
@@ -15,13 +15,13 @@ public class DirectDebitController {
         this.directDebitService = directDebitService;
     }
 
-    @GetMapping()
+    @GetMapping("/direct-debits")
     @ResponseBody
     public List<DirectDebit> findAll() {
         return directDebitService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/direct-debits/{id}")
     @ResponseBody
     public DirectDebit findById(@PathVariable String id) {
         return directDebitService.findById(id).orElseThrow(() -> new PaymentNotFoundException(id));

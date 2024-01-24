@@ -14,5 +14,12 @@ group Payment Service
         paymentService -> paymentDb: saveMandate()
         api <-[#green]- paymentService: 200 OK
     end
+    group Scheduled Debit Payment
+        api -> paymentService: VerifyMandateIsActive()
+        paymentService -> paymentDb: getMandate()
+        paymentService -> paymentService: CreateScheduledDebitPayment()
+        paymentService -> paymentDb: saveScheduledDebitPayment()
+
+    end
 
 @enduml

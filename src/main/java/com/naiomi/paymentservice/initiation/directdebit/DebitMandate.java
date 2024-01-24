@@ -15,7 +15,7 @@ public class DebitMandate {
     private String frequency;
     private String startDate;
     private String endDate;
-    private String amount;
+    private double amount;
     private String currency;
     private String collectionDay;
     private String reference;

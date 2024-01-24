@@ -4,6 +4,7 @@ import com.naiomi.paymentservice.initiation.data.PaymentStatus;
 import com.naiomi.paymentservice.initiation.data.PaymentType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
@@ -20,4 +21,6 @@ public class DirectDebit {
     private String creditorAccountId;
     private String reference;
     private PaymentStatus status;
+    @OneToOne
+    private DebitMandate debitMandate;
 }

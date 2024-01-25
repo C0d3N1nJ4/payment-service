@@ -3,3 +3,7 @@ INSERT INTO Credit_Transfer (PAYMENT_ID, PAYMENT_DATE_TIME, PAYMENT_TYPE, AMOUNT
                                                                                                                                      ('987654321', '2024-01-10 08:40:30', 0, 1500.50, 'EUR', 'DEBT54321', 'CRED09876', 'Payment for goods', 0),
                                                                                                                                      ('1', '2024-01-10 08:40:30', 0, 1500.50, 'EUR', '1', '2', 'Payment for goods', 0),
                                                                                                                                      ('567890123', '2024-01-11 09:45:35', 0, 750.25, 'GBP', 'DEBT67890', 'CRED12345', 'Refund', 1);
+
+INSERT INTO DEBIT_MANDATE (ID, DEBTOR_ACCOUNT_ID, CREDITOR_ACCOUNT_ID, FREQUENCY, START_DATE, END_DATE, AMOUNT, CURRENCY, COLLECTION_DAY, REFERENCE, STATUS) VALUES
+                                                                                                                                         ('1', '1', '2', '24', '2024-01-09 07:38:24', '2024-01-09 07:38:24', 100.00, 'USD', '30', 'Payment for services', 'ACTIVE'),
+                                                                                                                                         ('2', '3', '4', '48', '2024-01-10 08:40:30', '2024-01-10 08:40:30', 150.50, 'EUR', '25', 'Payment for goods', 'ACTIVE');

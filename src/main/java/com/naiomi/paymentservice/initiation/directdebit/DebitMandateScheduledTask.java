@@ -1,5 +1,6 @@
 package com.naiomi.paymentservice.initiation.directdebit;
 
+import com.naiomi.paymentservice.initiation.directdebit.mandates.DebitMandateServiceImpl;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

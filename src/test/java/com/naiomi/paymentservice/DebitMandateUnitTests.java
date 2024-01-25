@@ -1,7 +1,7 @@
 package com.naiomi.paymentservice;
 
-import com.naiomi.paymentservice.initiation.directdebit.DebitMandate;
-import com.naiomi.paymentservice.initiation.directdebit.DebitMandateRepository;
+import com.naiomi.paymentservice.initiation.directdebit.mandates.DebitMandate;
+import com.naiomi.paymentservice.initiation.directdebit.mandates.DebitMandateRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

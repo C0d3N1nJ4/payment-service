@@ -1,8 +1,5 @@
 package com.naiomi.paymentservice.initiation.directdebit.mandates;
 
-import com.naiomi.paymentservice.initiation.directdebit.DebitMandate;
-import com.naiomi.paymentservice.initiation.directdebit.DebitMandateRepository;
-import com.naiomi.paymentservice.initiation.directdebit.mandates.DebitMandateService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

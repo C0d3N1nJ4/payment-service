@@ -2,6 +2,7 @@ package com.naiomi.paymentservice.initiation.directdebit;
 
 import com.naiomi.paymentservice.initiation.data.PaymentStatus;
 import com.naiomi.paymentservice.initiation.data.PaymentType;
+import com.naiomi.paymentservice.initiation.directdebit.mandates.DebitMandate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;

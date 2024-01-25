@@ -1,4 +1,4 @@
-package com.naiomi.paymentservice.initiation.directdebit;
+package com.naiomi.paymentservice.initiation.directdebit.mandates;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

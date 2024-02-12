@@ -16,31 +16,26 @@ public class DirectDebitController {
     }
 
     @GetMapping("/direct-debits")
-    @ResponseBody
     public List<DirectDebit> findAll() {
         return directDebitService.findAll();
     }
 
     @GetMapping("/direct-debits/{id}")
-    @ResponseBody
     public DirectDebit findById(@PathVariable String id) {
         return directDebitService.findById(id).orElseThrow(() -> new PaymentNotFoundException(id));
     }
 
-    @PostMapping()
-    @ResponseBody
+    @PostMapping("/direct-debits")
     public DirectDebit createDirectDebit(@RequestBody DirectDebit directDebit) {
         return directDebitService.createDirectDebit(directDebit);
     }
 
     @PutMapping("/{id}")
-    @ResponseBody
     public DirectDebit update(@PathVariable String id, @RequestBody DirectDebit directDebit) {
         return directDebitService.update(id, directDebit);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseBody
     public void delete(@PathVariable String id) {
         directDebitService.delete(id);
     }
